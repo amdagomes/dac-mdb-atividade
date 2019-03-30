@@ -18,13 +18,23 @@ public class Cliente implements Serializable {
     private int id;
     private String nome;
     private String email;
+    private String numCartao;
 
     public Cliente() {
     }
 
-    public Cliente(String nome, String email) {
+    public Cliente(String nome, String email, String numCartao) {
         this.nome = nome;
         this.email = email;
+        this.numCartao = numCartao;
+    }
+
+    public String getNumCartao() {
+        return numCartao;
+    }
+
+    public void setNumCartao(String numCartao) {
+        this.numCartao = numCartao;
     }
 
     public int getId() {

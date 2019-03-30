@@ -1,8 +1,10 @@
 package edu.ifpb.dac;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -18,12 +20,21 @@ public class Pedido implements Serializable {
     @Id
     private int id;
 
-    @OneToMany
-    private List<Produto> produtos;
-    
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<ItemDeVenda> produtos;
+
     @ManyToOne
     private Cliente cliente;
+    
+    private BigDecimal valorTotal;
 
+    public Pedido(int id, List<ItemDeVenda> produtos, Cliente cliente) {
+        this.id = id;
+        this.produtos = produtos;
+        this.cliente = cliente;
+    }
+
+    
     public Pedido() {
         this.produtos = new ArrayList<>();
     }
@@ -36,18 +47,19 @@ public class Pedido implements Serializable {
         this.id = id;
     }
 
-    public void add(Produto produto) {
-        this.produtos.add(produto);
+    public void add(ItemDeVenda item) {
+        this.produtos.add(item);
     }
 
-    public void remove(Produto produto) {
-        this.produtos.remove(produto);
+    public void remove(ItemDeVenda item) {
+        this.produtos.remove(item);
     }
-    public List<Produto> getProdutos() {
+
+    public List<ItemDeVenda> getProdutos() {
         return produtos;
     }
 
-    public void setProdutos(List<Produto> produtos) {
+    public void setProdutos(List<ItemDeVenda> produtos) {
         this.produtos = produtos;
     }
 
@@ -58,6 +70,14 @@ public class Pedido implements Serializable {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
+    private void valorFinal() {
+        
+        BigDecimal total = null ;
+        for (int i = 0; i < produtos.size(); i++) {
 
-    
+        total = total.add(produtos.get(i).getSubtotal()) ;
+        this.valorTotal=total;
+        }
+        
+    }
 }
