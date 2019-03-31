@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
@@ -29,7 +30,8 @@ import javax.ejb.StatefulTimeout;
 @StatefulTimeout(unit = TimeUnit.MINUTES, value = 5)
 //@Remote(CarrinhoIF.class)
 public class Carrinho implements CarrinhoIF {
-
+  @EJB
+  private EnviarCompra validar;
     private Pedido pedido = new Pedido();
 //    private List<ItemDeVenda> itens = new ArrayList<>();
 
@@ -55,7 +57,9 @@ public class Carrinho implements CarrinhoIF {
 
     @Remove
     @Override
-    public void finalizar() {
+    public void finalizar( String numeroCartao,Pedido p) {
+        validar.enviarPedido(numeroCartao, pedido);
+        
         System.out.println("--- Produtos ----");
         
     }

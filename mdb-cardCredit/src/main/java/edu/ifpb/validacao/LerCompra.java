@@ -58,11 +58,11 @@ public class LerCompra implements MessageListener {
             if (validaCompra) {
 
                 producer.setProperty("aceito", true);
-                System.out.println("chegou aqui");
+               
                 
             } else {
                 producer.setProperty("aceito", false);
-                 System.out.println("chegou nao");
+                
             }
             
             producer.send(queue,"aceito");
