@@ -2,6 +2,8 @@ package edu.ifpb.dac;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +18,7 @@ import javax.persistence.ManyToOne;
  *
  * @author Cliente
  */
+@Entity
 public class ItemDeVenda implements Serializable {
 
     @Id
@@ -29,6 +32,7 @@ public class ItemDeVenda implements Serializable {
     private BigDecimal subtotal;
 
     public ItemDeVenda() {
+        this.quant = 1;
     }
 
     public ItemDeVenda(Produto produto, int quant) {
@@ -71,10 +75,45 @@ public class ItemDeVenda implements Serializable {
     }
 
     private BigDecimal calculoSub() {
-        Integer intege = 0;
-        quant = intege.intValue();
         BigDecimal valor = new BigDecimal(quant);
         return produto.getPreco().multiply(valor);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 67 * hash + Objects.hashCode(this.id);
+        hash = 67 * hash + Objects.hashCode(this.produto);
+        hash = 67 * hash + this.quant;
+        hash = 67 * hash + Objects.hashCode(this.subtotal);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ItemDeVenda other = (ItemDeVenda) obj;
+        if (this.quant != other.quant) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.produto, other.produto)) {
+            return false;
+        }
+        if (!Objects.equals(this.subtotal, other.subtotal)) {
+            return false;
+        }
+        return true;
     }
 
 }

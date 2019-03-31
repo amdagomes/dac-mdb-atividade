@@ -13,9 +13,8 @@
         <module>shared</module>
         <module>mdb-email</module>
         <module>mdb-cardCredit</module>
-    <module>core</module>
-    <module>Web</module>
-  </modules>
+        <module>order</module>
+    </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

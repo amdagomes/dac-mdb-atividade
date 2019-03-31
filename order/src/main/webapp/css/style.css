@@ -1,0 +1,12 @@
+.none{display:none}
+
+.modal{
+    overflow: visible !important;
+}
+.jquery-modal{
+    z-index: 50;
+}
+
+.tile{
+    flex-flow: wrap !important;
+}
