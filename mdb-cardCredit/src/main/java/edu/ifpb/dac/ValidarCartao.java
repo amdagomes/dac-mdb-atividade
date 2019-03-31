@@ -17,15 +17,11 @@ public class ValidarCartao {
     private final BigDecimal limite = new BigDecimal("100.000");
 
     public ValidarCartao() {
-        
-        
-    }
+         }
 
-    public boolean validarPedido(String cartaoNumero, BigDecimal valorCompra) {
-       if(validarCartao(cartaoNumero) ==true &&validarLimite(valorCompra)==true){
+    public boolean validarPedido(String cartaoNumero, Pedido pedido) {
+       if(validarCartao(cartaoNumero) ==true &&validarLimite(pedido)==true){
         return true;
-       
-       
        }
        return false;
     }
@@ -39,13 +35,8 @@ public class ValidarCartao {
         }
     }
 
-    public boolean validarLimite(BigDecimal valorCompra) {
-        if (valorCompra.compareTo(limite) == -1) {
-            return true;
-
-        } else {
-            return false;
-        }
+    public boolean validarLimite(Pedido pedido) {
+        return pedido.getValorTotal().compareTo(limite) == -1;
     }
 
 }
