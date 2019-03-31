@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>DAC MDB</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+        <link rel="stylesheet" href="css/bulma-badge.min.css"/>
+        <link rel="stylesheet" href="css/style.css"/>
+    </h:head>
+    <h:body>
+        <nav class="navbar is-dark">
+            <div id="navMenuColordark-example" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item is-size-4" href="index.xhtml">
+                        DAC
+                    </a>      
+                </div>
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <a class="has-badge-rounded has-badge-small has-badge-bottom" data-badge="#{controladorCarrinho.quantProdutos()}" href="carrinho.xhtml">
+                            <span class="icon is-small">
+                                <i class="fas fa-shopping-cart"></i>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="navbar-item">
+                        <div class="field is-grouped">
+                            <p class="control">
+                                <a class="button is-primary" href="#cadastro-produto" rel="modal:open">
+                                    <span class="icon is-small">
+                                        <i class="fas fa-plus"></i>
+                                    </span>
+                                    <span>Produto</span>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <section class="section">
+            <div class="container">
+                <!-- Lista os itens de venda -->
+                <div class="columns">
+                    <div class="column is-6">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Carrinho</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ui:repeat var="item" value="#{controladorCarrinho.listarCarrinho()}">
+                                    <tr>
+                                        <th>#{item.produto.descricao} - qtd #{item.quant}</th>
+                                        <td>#{item.subtotal}</td>
+                                    </tr>
+                                </ui:repeat>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Total</th>
+                                    <th>#{controladorCarrinho.totalPedido()}</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <!-- Cadastra venda -->
+                    <div class="col s5 offset-s1">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="is-size-5">Dados do cliente</h5>
+                            </div>
+                        </div>
+                        <h:form>
+                            <div class="columns">
+                                <div class="column is-12">
+                                    <label for="nome">Nome:</label>
+                                    <h:inputText id="nome" class="input" value="#{controladorCarrinho.cliente.nome}"/>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column is-12">
+                                    <label for="email">Email:</label>
+                                    <h:inputText id="email" class="input" value="#{controladorCarrinho.cliente.email}"/>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column is-12">
+                                    <label for="cartao">Número do cartão:</label>
+                                    <h:inputText id="cartao" class="input" value="#{controladorCarrinho.cliente.numCartao}"/>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column is-5 is-offset-7">
+                                    <h:commandButton class="button is-success full-width" value="Finalizar Pedido" action="#{controladorCarrinho.finalizarPedido()}"/>
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div id="cadastro-produto" class="none">
+            <p class="title is-4">Cadastro de Produto</p>
+            <h:form>
+                <div class="field">
+                    <label class="label has-text-weight-normal">Descrição</label>
+                    <div class="control">
+                        <h:inputText  class="input" value="#{controladorProduto.produto.descricao}"/>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label has-text-weight-normal">Preço</label>
+                    <div class="control">
+                        <h:inputText  class="input" value="#{controladorProduto.produto.preco}"/>
+                    </div>
+                </div>
+                <h:commandLink class="button is-success is-fullwidth" action="#{controladorProduto.adicionarProduto()}">Cadastrar</h:commandLink>
+            </h:form>
+            <br/>
+        </div>
+        <script src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    </h:body>
+</html>
+

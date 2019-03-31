@@ -1,1 +1,5 @@
 /shared/target/
+/mdb-email/target/
+/mdb-cardCredit/target/
+/core/target/
+/order/target/
