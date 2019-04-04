@@ -57,8 +57,8 @@ public class Carrinho implements CarrinhoIF {
 
     @Remove
     @Override
-    public void finalizar( String numeroCartao,Pedido p) {
-        validar.enviarPedido(numeroCartao, pedido);
+    public void finalizar( Pedido p) {
+        validar.enviarPedido( pedido);
         
         System.out.println("--- Produtos ----");
         
@@ -75,4 +75,7 @@ public class Carrinho implements CarrinhoIF {
         return this.pedido.getValorTotal();
     }
 
+   
+
+  
 }

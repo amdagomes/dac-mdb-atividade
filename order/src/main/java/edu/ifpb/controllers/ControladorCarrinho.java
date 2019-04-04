@@ -60,7 +60,7 @@ public class ControladorCarrinho implements Serializable{
 
     public String finalizarPedido() {
         this.pedido.setCliente(this.cliente);
-        this.carrinho.finalizar();
+        this.carrinho.finalizar(pedido);
         finalizarSessao();
         return "index.xhtml";
     }

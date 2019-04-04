@@ -6,6 +6,7 @@
 package edu.ifpb.interfaces;
 
 import edu.ifpb.dac.ItemDeVenda;
+import edu.ifpb.dac.Pedido;
 import edu.ifpb.dac.Produto;
 import java.math.BigDecimal;
 import java.util.List;
@@ -26,5 +27,5 @@ public interface CarrinhoIF {
     
     BigDecimal total();
 
-    void finalizar();
+    void finalizar(Pedido p);
 }

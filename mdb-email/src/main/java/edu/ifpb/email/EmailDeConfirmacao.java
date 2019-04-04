@@ -3,30 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.ifpb.validacao;
+package edu.ifpb.email;
 
 import edu.ifpb.dac.Pedido;
-
-import edu.ifpb.dac.ValidarLimite;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Resource;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
-import javax.inject.Inject;
-import javax.jms.JMSContext;
 import javax.jms.JMSException;
-import javax.jms.JMSProducer;
 import javax.jms.Message;
 import javax.jms.MessageListener;
-import javax.jms.Queue;
-import javax.jms.Topic;
 
 /**
  *
  * @author Cliente
  */
+
 @MessageDriven(
         mappedName = "jms/validarMsg",
         activationConfig = {
@@ -38,37 +30,24 @@ import javax.jms.Topic;
                     propertyValue = "topic")
         }
 )
-public class LerCompra implements MessageListener {
-
-    private ValidarLimite valida = new ValidarLimite();
-    @Inject
-    private JMSContext context;
-    @Resource(lookup = "jms/validarMsg")
-    private Topic topic;
+public class EmailDeConfirmacao implements MessageListener {
 
     @Override
-    public void onMessage(Message msg) {
+    public void onMessage(Message message) {
 
         try {
-            JMSProducer producer = context.createProducer();
+            Pedido pedido = message.getBody(Pedido.class);
 
-            Pedido pedido = msg.getBody(Pedido.class);
-
-            if (valida.validarLimite(pedido)) {
-
-                producer.setProperty("aprovado", true);
-
-            } else {
-                producer.setProperty("aprovado", false);
-
+            if (message.propertyExists("email")) {
+                if (message.getStringProperty("email").equals("aprovado")) {
+                    System.out.println("Parabéns seu pedido"+ pedido.toString()+" foi Aprovado");
+                } else {
+                    System.out.println("Limite indisponivel");
+                }
             }
-            producer.setProperty("email", "aprovado");
-            producer.send(topic, pedido);
-
         } catch (JMSException ex) {
-            Logger.getLogger(LerCompra.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EmailDeConfirmacao.class.getName()).log(Level.SEVERE, null, ex);
+
         }
-
     }
-
 }
